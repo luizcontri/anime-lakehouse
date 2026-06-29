@@ -7,7 +7,6 @@ Anime Lakehouse is an open-source data platform for collecting, consolidating an
 ```text
 anime-lakehouse/
 ├── dags/
-├── docs/
 ├── infra/
 │   └── kubernetes/
 │       ├── base/
@@ -195,3 +194,38 @@ The local development flow is therefore:
 6. let Argo CD keep the environment synchronized.
 
 This approach makes the setup reproducible and easy to replicate on another machine.
+
+---
+
+## Documentation index
+
+### Infrastructure
+
+- [infra/README.md](infra/README.md) — infrastructure directory overview
+- [infra/kubernetes/README.md](infra/kubernetes/README.md) — Kubernetes directory overview
+- [infra/kubernetes/base/README.md](infra/kubernetes/base/README.md) — base manifests overview
+- [infra/kubernetes/base/argocd/README.md](infra/kubernetes/base/argocd/README.md) — Argo CD installation and access
+- [infra/kubernetes/base/sealed-secrets/README.md](infra/kubernetes/base/sealed-secrets/README.md) — Sealed Secrets controller and workflow
+- [infra/kubernetes/base/secrets/README.md](infra/kubernetes/base/secrets/README.md) — secret templates and sealing workflow
+- [infra/kubernetes/overlays/README.md](infra/kubernetes/overlays/README.md) — environment-specific overlays
+- [infra/kubernetes/charts/README.md](infra/kubernetes/charts/README.md) — reusable Helm charts
+- [infra/terraform/README.md](infra/terraform/README.md) — Terraform provisioning (future)
+
+### Pipelines and source code
+
+- [src/README.md](src/README.md) — source code overview
+- [src/pipelines/README.md](src/pipelines/README.md) — pipeline stages overview
+- [src/pipelines/bronze/README.md](src/pipelines/bronze/README.md) — bronze ingestion layer
+- [src/pipelines/silver/README.md](src/pipelines/silver/README.md) — silver deduplication and consolidation layer
+- [src/pipelines/gold/README.md](src/pipelines/gold/README.md) — gold feature and analytics layer
+- [src/shared/README.md](src/shared/README.md) — shared utilities and helpers
+
+### Orchestration and operations
+
+- [dags/README.md](dags/README.md) — Airflow DAGs
+- [scripts/README.md](scripts/README.md) — operational scripts
+- [tests/README.md](tests/README.md) — tests
+
+### Project context
+
+- [CLAUDE.md](CLAUDE.md) — full project context, architecture decisions and data source inventory
