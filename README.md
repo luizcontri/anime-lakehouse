@@ -1,8 +1,8 @@
-# anime-lakehouse
+# 🎌 anime-lakehouse
 
 Anime Lakehouse is an open-source data platform for collecting, consolidating and serving anime metadata and user interaction data at scale. The project is designed for a fully local Kubernetes deployment on the user machine, without relying on cloud services at the moment, while remaining compatible with a future migration to cloud environments. It follows a medallion architecture (bronze → silver → gold) and is intended to run with MinIO, Spark Operator, Delta Lake, Apache Airflow and supporting services.
 
-## Project structure
+## 📁 Project structure
 
 ```text
 anime-lakehouse/
@@ -26,19 +26,19 @@ This layout is intended to host Kubernetes manifests, Airflow DAGs, Spark pipeli
 
 ---
 
-## Getting started from zero
+## 🚀 Getting started from zero
 
 Before installing anything, you need a Kubernetes cluster running locally.
 
-### Prerequisites
+### ✅ Prerequisites
 
 Make sure you have the following available on your machine:
 
-- a working Kubernetes cluster
-- kubectl configured to access that cluster
-- Docker or an equivalent container runtime if you want to run local Kubernetes tools through containers
-- Git
-- a shell available in your operating system (for example Bash, Zsh, PowerShell or the terminal provided by your OS)
+- ☸️ a working Kubernetes cluster
+- 🔧 kubectl configured to access that cluster
+- 🐳 Docker or an equivalent container runtime if you want to run local Kubernetes tools through containers
+- 📦 Git
+- 💻 a shell available in your operating system (for example Bash, Zsh, PowerShell or the terminal provided by your OS)
 
 ### 1. Start a local Kubernetes cluster
 
@@ -63,15 +63,15 @@ Install kubectl using the official Kubernetes installation guide for your operat
 
 ---
 
-## Recommended installation order
+## 📋 Recommended installation order
 
 For this project, the goal is to keep the whole stack declarative.
 
 That means:
 
-- the Kubernetes manifests live in this repository;
-- the secrets are managed as SealedSecret manifests;
-- Argo CD applies everything to the cluster from Git.
+- 📂 the Kubernetes manifests live in this repository;
+- 🔐 the secrets are managed as SealedSecret manifests;
+- 🔄 Argo CD applies everything to the cluster from Git.
 
 The practical order is:
 
@@ -79,15 +79,14 @@ The practical order is:
 2. Install Argo CD second
 3. Use Argo CD to apply the rest of the stack from this repository
 
-Why this order?
-
-- Sealed Secrets is the controller that turns SealedSecret objects into real Kubernetes Secrets.
-- Argo CD can be installed first, but the declarative secret flow becomes usable only after Sealed Secrets is ready.
-- Once both are available, the cluster can be managed entirely from manifests in Git.
+> **Why this order?**
+> Sealed Secrets is the controller that turns SealedSecret objects into real Kubernetes Secrets.
+> Argo CD can be installed first, but the declarative secret flow becomes usable only after Sealed Secrets is ready.
+> Once both are available, the cluster can be managed entirely from manifests in Git.
 
 ---
 
-## Step 1: Install Sealed Secrets
+## 🔐 Step 1: Install Sealed Secrets
 
 Sealed Secrets provides a secure and declarative way to manage Kubernetes secrets.
 
@@ -111,7 +110,7 @@ kubeseal --version
 
 ---
 
-## Step 2: Install Argo CD
+## 🔄 Step 2: Install Argo CD
 
 This repository already includes declarative manifests for Argo CD under [infra/kubernetes/base/argocd](infra/kubernetes/base/argocd).
 
@@ -152,7 +151,7 @@ The value returned is base64-encoded. Decode it with the tools available in your
 
 ---
 
-## Step 3: Use Sealed Secrets in this project
+## 🗝️ Step 3: Use Sealed Secrets in this project
 
 This repository includes a secret template and example values under [infra/kubernetes/base/secrets](infra/kubernetes/base/secrets).
 
@@ -175,14 +174,14 @@ This keeps secrets encrypted and safe to commit while still being usable by Kube
 
 ---
 
-## How this project is intended to run locally
+## 🖥️ How this project is intended to run locally
 
 Once the cluster is up and the base components are installed, Argo CD will be used to apply the remaining infrastructure and application manifests for:
 
-- MinIO
-- Airflow
-- Spark Operator
-- the lakehouse pipeline components
+- 🗄️ MinIO
+- 🌬️ Airflow
+- ⚡ Spark Operator
+- 🧱 the lakehouse pipeline components
 
 The local development flow is therefore:
 
@@ -197,9 +196,9 @@ This approach makes the setup reproducible and easy to replicate on another mach
 
 ---
 
-## Documentation index
+## 📚 Documentation index
 
-### Infrastructure
+### 🏗️ Infrastructure
 
 - [infra/README.md](infra/README.md) — infrastructure directory overview
 - [infra/kubernetes/README.md](infra/kubernetes/README.md) — Kubernetes directory overview
@@ -211,21 +210,21 @@ This approach makes the setup reproducible and easy to replicate on another mach
 - [infra/kubernetes/charts/README.md](infra/kubernetes/charts/README.md) — reusable Helm charts
 - [infra/terraform/README.md](infra/terraform/README.md) — Terraform provisioning (future)
 
-### Pipelines and source code
+### 🧱 Pipelines and source code
 
 - [src/README.md](src/README.md) — source code overview
 - [src/pipelines/README.md](src/pipelines/README.md) — pipeline stages overview
-- [src/pipelines/bronze/README.md](src/pipelines/bronze/README.md) — bronze ingestion layer
-- [src/pipelines/silver/README.md](src/pipelines/silver/README.md) — silver deduplication and consolidation layer
-- [src/pipelines/gold/README.md](src/pipelines/gold/README.md) — gold feature and analytics layer
+- [src/pipelines/bronze/README.md](src/pipelines/bronze/README.md) — 🥉 bronze ingestion layer
+- [src/pipelines/silver/README.md](src/pipelines/silver/README.md) — 🥈 silver deduplication and consolidation layer
+- [src/pipelines/gold/README.md](src/pipelines/gold/README.md) — 🥇 gold feature and analytics layer
 - [src/shared/README.md](src/shared/README.md) — shared utilities and helpers
 
-### Orchestration and operations
+### ⚙️ Orchestration and operations
 
 - [dags/README.md](dags/README.md) — Airflow DAGs
 - [scripts/README.md](scripts/README.md) — operational scripts
 - [tests/README.md](tests/README.md) — tests
 
-### Project context
+### 📖 Project context
 
 - [CLAUDE.md](CLAUDE.md) — full project context, architecture decisions and data source inventory
