@@ -11,7 +11,7 @@ spec:
   sources:
     - repoURL: https://airflow.apache.org
       chart: airflow
-      targetRevision: "1.15.0"
+      targetRevision: "1.16.0"
       helm:
         valueFiles:
           - $values/infra/kubernetes/base/airflow/values.yaml
