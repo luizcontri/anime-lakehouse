@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: minio
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: minio
+    app.kubernetes.io/part-of: anime-lakehouse
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/luizcontri/anime-lakehouse.git
+    targetRevision: HEAD
+    path: infra/kubernetes/base/minio
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: minio
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
