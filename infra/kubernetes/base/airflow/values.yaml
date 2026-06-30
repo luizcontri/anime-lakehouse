@@ -57,13 +57,73 @@ triggerer:
       cpu: 500m
       memory: 512Mi
 
-# PostgreSQL — bundled, uses the default 'standard' StorageClass
+# PostgreSQL — bundled bitnami image is disabled due to removed Docker Hub tags.
+# Using a standalone postgres:16-alpine pod via extraObjects instead.
 postgresql:
-  enabled: true
-  primary:
-    persistence:
-      enabled: true
-      size: 5Gi
+  enabled: false
+
+# Database connection — points to the standalone PostgreSQL pod below.
+data:
+  metadataConnection:
+    user: airflow
+    pass: airflow_local_dev
+    protocol: postgresql
+    host: airflow-db
+    port: 5432
+    db: airflow
+    sslmode: disable
+
+# Standalone PostgreSQL using the official Docker Hub image.
+extraObjects:
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      name: airflow-db
+    spec:
+      selector:
+        app: airflow-db
+      ports:
+        - port: 5432
+          targetPort: 5432
+  - apiVersion: apps/v1
+    kind: StatefulSet
+    metadata:
+      name: airflow-db
+    spec:
+      selector:
+        matchLabels:
+          app: airflow-db
+      serviceName: airflow-db
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            app: airflow-db
+        spec:
+          containers:
+            - name: postgres
+              image: postgres:16-alpine
+              env:
+                - name: POSTGRES_USER
+                  value: airflow
+                - name: POSTGRES_PASSWORD
+                  value: airflow_local_dev
+                - name: POSTGRES_DB
+                  value: airflow
+              ports:
+                - containerPort: 5432
+              volumeMounts:
+                - name: data
+                  mountPath: /var/lib/postgresql/data
+      volumeClaimTemplates:
+        - metadata:
+            name: data
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 5Gi
 
 # Fernet key — injected from a SealedSecret.
 # The secret must contain a key named 'fernet-key'.
