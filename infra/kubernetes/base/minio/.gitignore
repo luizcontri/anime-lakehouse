@@ -1,0 +1,3 @@
+# Never commit files with real credentials
+minio-secret.yaml
+*.generated.yaml

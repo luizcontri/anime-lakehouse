@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - storageclass.yaml
+  - namespace.yaml
+  - pv.yaml
+  - pvc.yaml
+  - deployment.yaml
+  - service.yaml
+  # minio-sealed-secret.yaml is intentionally excluded until generated locally.
+  # Generate it from secret-template.yaml using kubeseal, then add it here.
