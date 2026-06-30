@@ -1,0 +1,100 @@
+# Apache Airflow Helm Chart values
+# https://airflow.apache.org/docs/helm-chart/
+
+# Executor — LocalExecutor avoids Redis and Celery workers for local deployments.
+# KubernetesPodOperator still works independently of the executor.
+executor: "LocalExecutor"
+
+# Airflow image
+images:
+  airflow:
+    repository: apache/airflow
+    tag: "2.10.2"
+    pullPolicy: IfNotPresent
+
+# Redis — not required for LocalExecutor
+redis:
+  enabled: false
+
+# Scheduler
+scheduler:
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+
+# Webserver
+webserver:
+  service:
+    type: ClusterIP
+    port: 8080
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+  defaultUser:
+    enabled: true
+    role: Admin
+    username: admin
+    email: admin@anime-lakehouse.local
+    firstName: Admin
+    lastName: User
+    password: admin  # Change immediately after first login
+
+# Triggerer — required for deferred operators
+triggerer:
+  enabled: true
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+# PostgreSQL — bundled, uses the default 'standard' StorageClass
+postgresql:
+  enabled: true
+  primary:
+    persistence:
+      enabled: true
+      size: 5Gi
+
+# Fernet key — injected from a SealedSecret.
+# The secret must contain a key named 'fernet-key'.
+# Generate: python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+fernetKeySecretName: "airflow-secrets"
+
+# Webserver secret key — injected as an environment variable from a SealedSecret.
+secret:
+  - envName: "AIRFLOW__WEBSERVER__SECRET_KEY"
+    secretName: "airflow-secrets"
+    secretKey: "webserver-secret-key"
+
+# DAGs — synced from this repository via git-sync.
+# Credentials are read from the airflow-git-credentials SealedSecret.
+dags:
+  gitSync:
+    enabled: true
+    repo: https://github.com/luizcontri/anime-lakehouse.git
+    branch: main
+    rev: HEAD
+    depth: 1
+    maxFailures: 3
+    subPath: dags
+    wait: 60
+    credentialsSecret: airflow-git-credentials
+
+# RBAC and service account
+rbac:
+  create: true
+
+serviceAccount:
+  create: true
+  name: airflow

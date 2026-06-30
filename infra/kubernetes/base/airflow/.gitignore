@@ -1,0 +1,3 @@
+# Generated sealed secrets — never commit files with real credentials
+airflow-sealed-secret.yaml
+airflow-git-sealed-secret.yaml
