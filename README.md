@@ -178,10 +178,10 @@ This keeps secrets encrypted and safe to commit while still being usable by Kube
 
 Once the cluster is up and the base components are installed, Argo CD will be used to apply the remaining infrastructure and application manifests for:
 
-- 🗄️ MinIO
-- 🌬️ Airflow
-- ⚡ Spark Operator
-- 🧱 the lakehouse pipeline components
+- 🗄️ MinIO — **deployed** (S3-compatible object storage, running in the `minio` namespace)
+- 🌬️ Airflow — pending
+- ⚡ Spark Operator — pending
+- 🧱 the lakehouse pipeline components — pending
 
 The local development flow is therefore:
 
@@ -204,6 +204,7 @@ This approach makes the setup reproducible and easy to replicate on another mach
 - [infra/kubernetes/README.md](infra/kubernetes/README.md) — Kubernetes directory overview
 - [infra/kubernetes/base/README.md](infra/kubernetes/base/README.md) — base manifests overview
 - [infra/kubernetes/base/argocd/README.md](infra/kubernetes/base/argocd/README.md) — Argo CD installation and access
+- [infra/kubernetes/base/minio/README.md](infra/kubernetes/base/minio/README.md) — MinIO object storage deployment
 - [infra/kubernetes/base/sealed-secrets/README.md](infra/kubernetes/base/sealed-secrets/README.md) — Sealed Secrets controller and workflow
 - [infra/kubernetes/base/secrets/README.md](infra/kubernetes/base/secrets/README.md) — secret templates and sealing workflow
 - [infra/kubernetes/overlays/README.md](infra/kubernetes/overlays/README.md) — environment-specific overlays
