@@ -30,7 +30,6 @@ scheduler:
 webserver:
   service:
     type: ClusterIP
-    port: 8080
   resources:
     requests:
       cpu: 250m
