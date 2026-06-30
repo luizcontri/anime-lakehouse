@@ -7,5 +7,4 @@ resources:
   - pvc.yaml
   - deployment.yaml
   - service.yaml
-  # minio-sealed-secret.yaml is intentionally excluded until generated locally.
-  # Generate it from secret-template.yaml using kubeseal, then add it here.
+  - minio-sealed-secret.yaml
