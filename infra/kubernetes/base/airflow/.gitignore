@@ -1,3 +1,6 @@
-# Generated sealed secrets — never commit files with real credentials
-airflow-sealed-secret.yaml
-airflow-git-sealed-secret.yaml
+# Plain-text secret files with real credentials — never commit these
+*-secret.yaml
+*-credentials.yaml
+# Exception: sealed secrets are safe to commit (encrypted)
+!airflow-sealed-secret.yaml
+!airflow-git-sealed-secret.yaml
