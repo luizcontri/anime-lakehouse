@@ -1,0 +1,7 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+# This directory is Helm-managed via the Argo CD Application in infra/kubernetes/base/apps/airflow.yaml.
+# The sealed secrets below are applied before Argo CD syncs the Helm chart.
+resources:
+  - airflow-sealed-secret.yaml
+  - airflow-git-sealed-secret.yaml
