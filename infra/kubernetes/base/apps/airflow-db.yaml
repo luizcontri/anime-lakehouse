@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: airflow-db
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+  labels:
+    app.kubernetes.io/name: airflow-db
+    app.kubernetes.io/part-of: anime-lakehouse
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/luizcontri/anime-lakehouse.git
+    targetRevision: HEAD
+    path: infra/kubernetes/base/airflow-db
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: airflow
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

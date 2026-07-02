@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: airflow-prereqs
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: airflow-prereqs
+    app.kubernetes.io/part-of: anime-lakehouse
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/luizcontri/anime-lakehouse.git
+    targetRevision: HEAD
+    path: infra/kubernetes/base/airflow/postgres
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: airflow
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
