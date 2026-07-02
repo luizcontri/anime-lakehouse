@@ -78,7 +78,12 @@ data:
 # Generate: python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
 fernetKeySecretName: "airflow-secrets"
 
-# Webserver secret key — injected as an environment variable from a SealedSecret.
+# Webserver secret key — dedicated field for the Helm chart to use a static key.
+# The secret must contain a key named 'webserver-secret-key'.
+# Generate: python -c "import secrets; print(secrets.token_hex(32))"
+webserverSecretKeySecretName: "airflow-secrets"
+
+# Also inject as env var for components that read it directly.
 secret:
   - envName: "AIRFLOW__WEBSERVER__SECRET_KEY"
     secretName: "airflow-secrets"
